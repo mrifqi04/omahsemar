@@ -1,5 +1,10 @@
 <?php
 
+use Modules\Quotation\Http\Controllers\SendQuotationEmailController;
+use Modules\Quotation\Http\Controllers\QuotationSalesController;
+use Modules\Quotation\Http\Controllers\QuotationController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,15 +27,17 @@ Route::group(['middleware' => 'auth'], function () {
             'customer' => $customer,
         ])->setPaper('a4');
 
-        return $pdf->stream('quotation-'. $quotation->reference .'.pdf');
+        return $pdf->stream('quotation-' . $quotation->reference . '.pdf');
     })->name('quotations.pdf');
 
     //Send Quotation Mail
-    Route::get('/quotation/mail/{quotation}', 'SendQuotationEmailController')->name('quotation.email');
+    Route::get('/quotation/mail/{quotation}', [SendQuotationEmailController::class, 'send'])
+        ->name('quotation.email');
 
     //Sales Form Quotation
-    Route::get('/quotation-sales/{quotation}', 'QuotationSalesController')->name('quotation-sales.create');
+    Route::get('/quotation-sales/{quotation}', [QuotationSalesController::class, 'create'])
+        ->name('quotation-sales.create');
 
     //quotations
-    Route::resource('quotations', 'QuotationController');
+    Route::resource('quotations', QuotationController::class);
 });

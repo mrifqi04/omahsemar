@@ -119,12 +119,12 @@ class PermissionsTableSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create([
+            Permission::firstOrCreate([
                 'name' => $permission
             ]);
         }
 
-        $role = Role::create([
+        $role = Role::firstOrCreate([
             'name' => 'Admin'
         ]);
 
