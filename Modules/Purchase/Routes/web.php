@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
             'supplier' => $supplier,
         ])->setPaper('a4');
 
-        return $pdf->stream('purchase-'. $purchase->reference .'.pdf');
+        return $pdf->stream('purchase-' . $purchase->reference . '.pdf');
     })->name('purchases.pdf');
 
     //Sales
@@ -37,4 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/purchase-payments/update/{purchasePayment}', 'PurchasePaymentsController@update')->name('purchase-payments.update');
     Route::delete('/purchase-payments/destroy/{purchasePayment}', 'PurchasePaymentsController@destroy')->name('purchase-payments.destroy');
 
+    Route::get('/purchase-gr', 'PurchaseController@gr')->name('purchase-gr');
+    Route::post('/purchase-gr', 'PurchaseController@grStore')->name('gr.store');
 });

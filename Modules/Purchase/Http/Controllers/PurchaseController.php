@@ -4,11 +4,14 @@ namespace Modules\Purchase\Http\Controllers;
 
 use Modules\Purchase\DataTables\PurchaseDataTable;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Modules\People\Entities\Supplier;
 use Modules\Product\Entities\Product;
+use Modules\Purchase\Entities\GoodReceipt;
+use Modules\Purchase\Entities\GoodReceiptDetail;
 use Modules\Purchase\Entities\Purchase;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Purchase\Entities\PurchasePayment;
@@ -18,14 +21,16 @@ use Modules\Purchase\Http\Requests\UpdatePurchaseRequest;
 class PurchaseController extends Controller
 {
 
-    public function index(PurchaseDataTable $dataTable) {
+    public function index(PurchaseDataTable $dataTable)
+    {
         abort_if(Gate::denies('access_purchases'), 403);
 
         return $dataTable->render('purchase::index');
     }
 
 
-    public function create() {
+    public function create()
+    {
         abort_if(Gate::denies('create_purchases'), 403);
 
         Cart::instance('purchase')->destroy();
@@ -34,7 +39,8 @@ class PurchaseController extends Controller
     }
 
 
-    public function store(StorePurchaseRequest $request) {
+    public function store(StorePurchaseRequest $request)
+    {
         DB::transaction(function () use ($request) {
             $due_amount = $request->total_amount - $request->paid_amount;
             if ($due_amount == $request->total_amount) {
@@ -91,7 +97,7 @@ class PurchaseController extends Controller
             if ($purchase->paid_amount > 0) {
                 PurchasePayment::create([
                     'date' => $request->date,
-                    'reference' => 'INV/'.$purchase->reference,
+                    'reference' => 'INV/' . $purchase->reference,
                     'amount' => $purchase->paid_amount,
                     'purchase_id' => $purchase->id,
                     'payment_method' => $request->payment_method
@@ -105,16 +111,23 @@ class PurchaseController extends Controller
     }
 
 
-    public function show(Purchase $purchase) {
+    public function show(Purchase $purchase)
+    {
         abort_if(Gate::denies('show_purchases'), 403);
 
         $supplier = Supplier::findOrFail($purchase->supplier_id);
+
+        $purchase->load([
+            'purchaseDetails',
+            'goodReceipt.goodReceiptDetails.product', // this fixes lazy loading error
+        ]);
 
         return view('purchase::show', compact('purchase', 'supplier'));
     }
 
 
-    public function edit(Purchase $purchase) {
+    public function edit(Purchase $purchase)
+    {
         abort_if(Gate::denies('edit_purchases'), 403);
 
         $purchase_details = $purchase->purchaseDetails;
@@ -146,7 +159,8 @@ class PurchaseController extends Controller
     }
 
 
-    public function update(UpdatePurchaseRequest $request, Purchase $purchase) {
+    public function update(UpdatePurchaseRequest $request, Purchase $purchase)
+    {
         DB::transaction(function () use ($request, $purchase) {
             $due_amount = $request->total_amount - $request->paid_amount;
             if ($due_amount == $request->total_amount) {
@@ -218,7 +232,8 @@ class PurchaseController extends Controller
     }
 
 
-    public function destroy(Purchase $purchase) {
+    public function destroy(Purchase $purchase)
+    {
         abort_if(Gate::denies('delete_purchases'), 403);
 
         $purchase->delete();
@@ -226,5 +241,43 @@ class PurchaseController extends Controller
         toast('Purchase Deleted!', 'warning');
 
         return redirect()->route('purchases.index');
+    }
+
+    public function gr()
+    {
+        abort_if(Gate::denies('create_purchases'), 403);
+
+        Cart::instance('gr')->destroy();
+
+        return view('purchase::gr');
+    }
+
+    public function grStore(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $gr = GoodReceipt::create([
+                'purchase_id' => $request->purchase_id,
+                'date' => $request->date,
+                'supplier_id' => $request->supplier_id,
+                'supplier_name' => Supplier::findOrFail($request->supplier_id)->supplier_name,
+                'note' => $request->note,
+            ]);
+
+            foreach (Cart::instance('gr')->content() as $cart_item) {
+                GoodReceiptDetail::create([
+                    'good_receipt_id' => $gr->id,
+                    'product_id' => $cart_item->id,
+                    'product_name' => $cart_item->name,
+                    'product_code' => $cart_item->options->code,
+                    'quantity' => $cart_item->qty,
+                ]);
+            }
+
+            Cart::instance('gr')->destroy();
+        });
+
+        toast('Receipt Created!', 'success');
+
+        return redirect()->route('purchase-gr');
     }
 }

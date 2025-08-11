@@ -19,10 +19,12 @@
                         <div>
                             Reference: <strong>{{ $purchase->reference }}</strong>
                         </div>
-                        <a target="_blank" class="btn btn-sm btn-secondary mfs-auto mfe-1 d-print-none" href="{{ route('purchases.pdf', $purchase->id) }}">
+                        <a target="_blank" class="btn btn-sm btn-secondary mfs-auto mfe-1 d-print-none"
+                            href="{{ route('purchases.pdf', $purchase->id) }}">
                             <i class="bi bi-printer"></i> Print
                         </a>
-                        <a target="_blank" class="btn btn-sm btn-info mfe-1 d-print-none" href="{{ route('purchases.pdf', $purchase->id) }}">
+                        <a target="_blank" class="btn btn-sm btn-info mfe-1 d-print-none"
+                            href="{{ route('purchases.pdf', $purchase->id) }}">
                             <i class="bi bi-save"></i> Save
                         </a>
                     </div>
@@ -61,44 +63,44 @@
                         <div class="table-responsive-sm">
                             <table class="table table-striped">
                                 <thead>
-                                <tr>
-                                    <th class="align-middle">Product</th>
-                                    <th class="align-middle">Net Unit Price</th>
-                                    <th class="align-middle">Quantity</th>
-                                    <th class="align-middle">Discount</th>
-                                    <th class="align-middle">Tax</th>
-                                    <th class="align-middle">Sub Total</th>
-                                </tr>
+                                    <tr>
+                                        <th class="align-middle">Product</th>
+                                        <th class="align-middle">Net Unit Price</th>
+                                        <th class="align-middle">Quantity</th>
+                                        <th class="align-middle">Discount</th>
+                                        <th class="align-middle">Tax</th>
+                                        <th class="align-middle">Sub Total</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($purchase->purchaseDetails as $item)
-                                    <tr>
-                                        <td class="align-middle">
-                                            {{ $item->product_name }} <br>
-                                            <span class="badge badge-success">
-                                                {{ $item->product_code }}
-                                            </span>
-                                        </td>
+                                    @foreach ($purchase->purchaseDetails as $item)
+                                        <tr>
+                                            <td class="align-middle">
+                                                {{ $item->product_name }} <br>
+                                                <span class="badge badge-success">
+                                                    {{ $item->product_code }}
+                                                </span>
+                                            </td>
 
-                                        <td class="align-middle">{{ format_currency($item->unit_price) }}</td>
+                                            <td class="align-middle">{{ format_currency($item->unit_price) }}</td>
 
-                                        <td class="align-middle">
-                                            {{ $item->quantity }}
-                                        </td>
+                                            <td class="align-middle">
+                                                {{ $item->quantity }}
+                                            </td>
 
-                                        <td class="align-middle">
-                                            {{ format_currency($item->product_discount_amount) }}
-                                        </td>
+                                            <td class="align-middle">
+                                                {{ format_currency($item->product_discount_amount) }}
+                                            </td>
 
-                                        <td class="align-middle">
-                                            {{ format_currency($item->product_tax_amount) }}
-                                        </td>
+                                            <td class="align-middle">
+                                                {{ format_currency($item->product_tax_amount) }}
+                                            </td>
 
-                                        <td class="align-middle">
-                                            {{ format_currency($item->sub_total) }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            <td class="align-middle">
+                                                {{ format_currency($item->sub_total) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -106,22 +108,25 @@
                             <div class="col-lg-4 col-sm-5 ml-md-auto">
                                 <table class="table">
                                     <tbody>
-                                    <tr>
-                                        <td class="left"><strong>Discount ({{ $purchase->discount_percentage }}%)</strong></td>
-                                        <td class="right">{{ format_currency($purchase->discount_amount) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="left"><strong>Tax ({{ $purchase->tax_percentage }}%)</strong></td>
-                                        <td class="right">{{ format_currency($purchase->tax_amount) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="left"><strong>Shipping)</strong></td>
-                                        <td class="right">{{ format_currency($purchase->shipping_amount) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="left"><strong>Grand Total</strong></td>
-                                        <td class="right"><strong>{{ format_currency($purchase->total_amount) }}</strong></td>
-                                    </tr>
+                                        <tr>
+                                            <td class="left"><strong>Discount
+                                                    ({{ $purchase->discount_percentage }}%)</strong></td>
+                                            <td class="right">{{ format_currency($purchase->discount_amount) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left"><strong>Tax ({{ $purchase->tax_percentage }}%)</strong></td>
+                                            <td class="right">{{ format_currency($purchase->tax_amount) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left"><strong>Shipping)</strong></td>
+                                            <td class="right">{{ format_currency($purchase->shipping_amount) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left"><strong>Grand Total</strong></td>
+                                            <td class="right">
+                                                <strong>{{ format_currency($purchase->total_amount) }}</strong>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -130,6 +135,78 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex flex-wrap align-items-center">
+                        <div>
+                            Good Receipt Reference: <strong>{{ $purchase->goodreceipt->reference }}</strong>
+                        </div>
+                        <a target="_blank" class="btn btn-sm btn-secondary mfs-auto mfe-1 d-print-none"
+                            href="{{ route('purchases.pdf', $purchase->id) }}">
+                            <i class="bi bi-printer"></i> Print
+                        </a>
+                        <a target="_blank" class="btn btn-sm btn-info mfe-1 d-print-none"
+                            href="{{ route('purchases.pdf', $purchase->id) }}">
+                            <i class="bi bi-save"></i> Save
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-sm-4 mb-3 mb-md-0">
+
+                            </div>
+
+                            <div class="col-sm-4 mb-3 mb-md-0">
+
+                            </div>
+
+                            <div class="col-sm-4 mb-3 mb-md-0">
+                                <h6 class="mb-2 border-bottom pb-2">Received Info:</h6>
+                                <div>Date: {{ \Carbon\Carbon::parse($purchase->goodReceipt->date)->format('d M, Y') }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped text-center align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Barcode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($purchase->goodReceipt->goodReceiptDetails as $item)
+                                        <tr>
+                                            <td>
+                                                {{ $item->product_name }} <br>
+                                                <span class="badge badge-success">
+                                                    {{ $item->product_code }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {{ $item->quantity }}
+                                            </td>
+                                            <td>
+                                                {!! \Milon\Barcode\Facades\DNS1DFacade::getBarCodeSVG(
+                                                    $item->product_code,
+                                                    $item->product->product_barcode_symbology,
+                                                    2,
+                                                    110,
+                                                ) !!}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
-

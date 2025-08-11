@@ -7,7 +7,7 @@ return [
      * Shared translations.
      *
      */
-    'title' => 'Triangle POS',
+    'title' => 'LaraPOS',
     'next' => 'Next Step',
     'back' => 'Previous',
     'finish' => 'Install',

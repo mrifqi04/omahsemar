@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Modules\Setting\Entities\Setting;
 use Modules\Setting\Http\Requests\StoreSettingsRequest;
 use Modules\Setting\Http\Requests\StoreSmtpSettingsRequest;
@@ -15,7 +16,8 @@ use Modules\Setting\Http\Requests\StoreSmtpSettingsRequest;
 class SettingController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         abort_if(Gate::denies('access_settings'), 403);
 
         $settings = Setting::firstOrFail();
@@ -24,8 +26,11 @@ class SettingController extends Controller
     }
 
 
-    public function update(StoreSettingsRequest $request) {
-        Setting::firstOrFail()->update([
+    public function update(StoreSettingsRequest $request)
+    {
+        $setting = Setting::firstOrFail();
+
+        $setting->update([
             'company_name' => $request->company_name,
             'company_email' => $request->company_email,
             'company_phone' => $request->company_phone,
@@ -35,6 +40,14 @@ class SettingController extends Controller
             'default_currency_position' => $request->default_currency_position,
         ]);
 
+        if ($request->has('document')) {
+            foreach ($request->input('document', []) as $file) {
+                $setting
+                    ->addMedia(Storage::path('temp/dropzone/' . $file))
+                    ->toMediaCollection('images_' . tenant('id'));
+            }
+        }
+
         cache()->forget('settings');
 
         toast('Settings Updated!', 'info');
@@ -43,27 +56,29 @@ class SettingController extends Controller
     }
 
 
-    public function updateSmtp(StoreSmtpSettingsRequest $request) {
+    public function updateSmtp(StoreSmtpSettingsRequest $request)
+    {
         $toReplace = array(
-            'MAIL_MAILER='.env('MAIL_HOST'),
-            'MAIL_HOST="'.env('MAIL_HOST').'"',
-            'MAIL_PORT='.env('MAIL_PORT'),
-            'MAIL_FROM_ADDRESS="'.env('MAIL_FROM_ADDRESS').'"',
-            'MAIL_FROM_NAME="'.env('MAIL_FROM_NAME').'"',
-            'MAIL_USERNAME="'.env('MAIL_USERNAME').'"',
-            'MAIL_PASSWORD="'.env('MAIL_PASSWORD').'"',
-            'MAIL_ENCRYPTION="'.env('MAIL_ENCRYPTION').'"'
+            'MAIL_MAILER=' . env('MAIL_HOST'),
+            'MAIL_HOST="' . env('MAIL_HOST') . '"',
+            'MAIL_PORT=' . env('MAIL_PORT'),
+            'MAIL_FROM_ADDRESS="' . env('MAIL_FROM_ADDRESS') . '"',
+            'MAIL_FROM_NAME="' . env('MAIL_FROM_NAME') . '"',
+            'MAIL_USERNAME="' . env('MAIL_USERNAME') . '"',
+            'MAIL_PASSWORD="' . env('MAIL_PASSWORD') . '"',
+            'MAIL_ENCRYPTION="' . env('MAIL_ENCRYPTION') . '"'
         );
 
         $replaceWith = array(
-            'MAIL_MAILER='.$request->mail_mailer,
-            'MAIL_HOST="'.$request->mail_host.'"',
-            'MAIL_PORT='.$request->mail_port,
-            'MAIL_FROM_ADDRESS="'.$request->mail_from_address.'"',
-            'MAIL_FROM_NAME="'.$request->mail_from_name.'"',
-            'MAIL_USERNAME="'.$request->mail_username.'"',
-            'MAIL_PASSWORD="'.$request->mail_password.'"',
-            'MAIL_ENCRYPTION="'.$request->mail_encryption.'"');
+            'MAIL_MAILER=' . $request->mail_mailer,
+            'MAIL_HOST="' . $request->mail_host . '"',
+            'MAIL_PORT=' . $request->mail_port,
+            'MAIL_FROM_ADDRESS="' . $request->mail_from_address . '"',
+            'MAIL_FROM_NAME="' . $request->mail_from_name . '"',
+            'MAIL_USERNAME="' . $request->mail_username . '"',
+            'MAIL_PASSWORD="' . $request->mail_password . '"',
+            'MAIL_ENCRYPTION="' . $request->mail_encryption . '"'
+        );
 
         try {
             file_put_contents(base_path('.env'), str_replace($toReplace, $replaceWith, file_get_contents(base_path('.env'))));
