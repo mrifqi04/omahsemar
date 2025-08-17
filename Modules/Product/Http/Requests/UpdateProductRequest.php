@@ -22,12 +22,13 @@ class UpdateProductRequest extends FormRequest
             'product_unit' => ['required', 'string', 'max:255'],
             'product_quantity' => ['required', 'integer', 'min:1'],
             'product_cost' => ['required', 'numeric', 'max:2147483647'],
-            'product_price' => ['required', 'numeric', 'max:2147483647'],
+            // 'product_price' => ['required', 'numeric', 'max:2147483647'],
             'product_stock_alert' => ['required', 'integer', 'min:0'],
             'product_order_tax' => ['nullable', 'integer', 'min:0', 'max:100'],
             'product_tax_type' => ['nullable', 'integer'],
             'product_note' => ['nullable', 'string', 'max:1000'],
-            'category_id' => ['required', 'integer']
+            'category_id' => ['required', 'integer'],
+            'exp_date' => ['required', 'integer'],
         ];
     }
 

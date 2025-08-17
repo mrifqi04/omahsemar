@@ -12,21 +12,24 @@ use Modules\People\Entities\Supplier;
 class SuppliersController extends Controller
 {
 
-    public function index(SuppliersDataTable $dataTable) {
+    public function index(SuppliersDataTable $dataTable)
+    {
         abort_if(Gate::denies('access_suppliers'), 403);
 
         return $dataTable->render('people::suppliers.index');
     }
 
 
-    public function create() {
+    public function create()
+    {
         abort_if(Gate::denies('create_suppliers'), 403);
 
         return view('people::suppliers.create');
     }
 
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         abort_if(Gate::denies('create_suppliers'), 403);
 
         $request->validate([
@@ -34,7 +37,6 @@ class SuppliersController extends Controller
             'supplier_phone' => 'required|max:255',
             'supplier_email' => 'required|email|max:255',
             'city'           => 'required|string|max:255',
-            'country'        => 'required|string|max:255',
             'address'        => 'required|string|max:500',
         ]);
 
@@ -44,7 +46,10 @@ class SuppliersController extends Controller
             'supplier_email' => $request->supplier_email,
             'city'           => $request->city,
             'country'        => $request->country,
-            'address'        => $request->address
+            'address'        => $request->address,
+            'pic_name'       => $request->pic_name,
+            'country'       => 'Indonesia',
+            'pic_telp'      => $request->pic_telp,
         ]);
 
         toast('Supplier Created!', 'success');
@@ -53,21 +58,24 @@ class SuppliersController extends Controller
     }
 
 
-    public function show(Supplier $supplier) {
+    public function show(Supplier $supplier)
+    {
         abort_if(Gate::denies('show_suppliers'), 403);
 
         return view('people::suppliers.show', compact('supplier'));
     }
 
 
-    public function edit(Supplier $supplier) {
+    public function edit(Supplier $supplier)
+    {
         abort_if(Gate::denies('edit_suppliers'), 403);
 
         return view('people::suppliers.edit', compact('supplier'));
     }
 
 
-    public function update(Request $request, Supplier $supplier) {
+    public function update(Request $request, Supplier $supplier)
+    {
         abort_if(Gate::denies('edit_suppliers'), 403);
 
         $request->validate([
@@ -94,7 +102,8 @@ class SuppliersController extends Controller
     }
 
 
-    public function destroy(Supplier $supplier) {
+    public function destroy(Supplier $supplier)
+    {
         abort_if(Gate::denies('delete_suppliers'), 403);
 
         $supplier->delete();

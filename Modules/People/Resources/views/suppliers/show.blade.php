@@ -42,6 +42,14 @@
                                     <th>Address</th>
                                     <td>{{ $supplier->address }}</td>
                                 </tr>
+                                <tr>
+                                    <th>PIC Name</th>
+                                    <td>{{ $supplier->pic_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>PIC Phone</th>
+                                    <td>{{ $supplier->pic_telp }}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -50,4 +58,3 @@
         </div>
     </div>
 @endsection
-

@@ -16,21 +16,29 @@ use Modules\Upload\Entities\Upload;
 class ProductController extends Controller
 {
 
-    public function index(ProductDataTable $dataTable) {
+    public function index(ProductDataTable $dataTable)
+    {
         abort_if(Gate::denies('access_products'), 403);
 
         return $dataTable->render('product::products.index');
     }
 
 
-    public function create() {
+    public function create()
+    {
         abort_if(Gate::denies('create_products'), 403);
 
         return view('product::products.create');
     }
 
 
-    public function store(StoreProductRequest $request) {
+    public function store(StoreProductRequest $request)
+    {
+        $request->merge([
+            'product_price' => 0,
+            'exp_date' => date('Y-m-d', strtotime('+' . $request->exp_date . ' days')),
+        ]);
+
         $product = Product::create($request->except('document'));
 
         if ($request->has('document')) {
@@ -45,21 +53,27 @@ class ProductController extends Controller
     }
 
 
-    public function show(Product $product) {
+    public function show(Product $product)
+    {
         abort_if(Gate::denies('show_products'), 403);
 
         return view('product::products.show', compact('product'));
     }
 
 
-    public function edit(Product $product) {
+    public function edit(Product $product)
+    {
         abort_if(Gate::denies('edit_products'), 403);
 
         return view('product::products.edit', compact('product'));
     }
 
 
-    public function update(UpdateProductRequest $request, Product $product) {
+    public function update(UpdateProductRequest $request, Product $product)
+    {
+        $request->merge([
+            'exp_date' => date('Y-m-d', strtotime('+' . $request->exp_date . ' days')),
+        ]);
         $product->update($request->except('document'));
 
         if ($request->has('document')) {
@@ -86,7 +100,8 @@ class ProductController extends Controller
     }
 
 
-    public function destroy(Product $product) {
+    public function destroy(Product $product)
+    {
         abort_if(Gate::denies('delete_products'), 403);
 
         $product->delete();

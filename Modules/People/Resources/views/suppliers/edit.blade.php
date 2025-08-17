@@ -29,13 +29,15 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="supplier_name">Supplier Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="supplier_name" required value="{{ $supplier->supplier_name }}">
+                                        <input type="text" class="form-control" name="supplier_name" required
+                                            value="{{ $supplier->supplier_name }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="supplier_email">Email <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" name="supplier_email" required value="{{ $supplier->supplier_email }}">
+                                        <input type="email" class="form-control" name="supplier_email" required
+                                            value="{{ $supplier->supplier_email }}">
                                     </div>
                                 </div>
                             </div>
@@ -44,19 +46,22 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="supplier_phone">Phone <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="supplier_phone" required value="{{ $supplier->supplier_phone }}">
+                                        <input type="text" class="form-control" name="supplier_phone" required
+                                            value="{{ $supplier->supplier_phone }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="city">City <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="city" required value="{{ $supplier->city }}">
+                                        <input type="text" class="form-control" name="city" required
+                                            value="{{ $supplier->city }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="country">Country <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="country" required value="{{ $supplier->country }}">
+                                        <input type="text" class="form-control" name="country" required
+                                            value="{{ $supplier->country }}">
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +70,31 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="address">Address <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="address" required value="{{ $supplier->address }}">
+                                        <input type="text" class="form-control" name="address" required
+                                            value="{{ $supplier->address }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>PIC</h5>
+                            <div class="form-row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="supplier_name">PIC Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="pic_name"
+                                            value="{{ $supplier->pic_name }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="supplier_name">PIC Phone <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="pic_telp"
+                                            value="{{ $supplier->pic_telp }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -76,4 +105,3 @@
         </form>
     </div>
 @endsection
-
