@@ -19,14 +19,14 @@
                     </a>
                 </li>
             @endcan
-            @can('create_products')
+            {{-- @can('create_products')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->routeIs('products.create') ? 'c-active' : '' }}"
                         href="{{ route('products.create') }}">
                         <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Create Product
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('products.index') ? 'c-active' : '' }}"
                     href="{{ route('products.index') }}">
@@ -247,14 +247,14 @@
             <i class="c-sidebar-nav-icon bi bi-people" style="line-height: 1;"></i> Parties
         </a>
         <ul class="c-sidebar-nav-dropdown-items">
-            @can('access_customers')
+            {{-- @can('access_customers')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->routeIs('customers.*') ? 'c-active' : '' }}"
                         href="{{ route('customers.index') }}">
                         <i class="c-sidebar-nav-icon bi bi-people-fill" style="line-height: 1;"></i> Customers
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @can('access_suppliers')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->routeIs('suppliers.*') ? 'c-active' : '' }}"
