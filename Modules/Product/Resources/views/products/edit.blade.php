@@ -172,7 +172,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </form>
     </div>

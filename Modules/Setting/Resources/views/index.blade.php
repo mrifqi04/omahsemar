@@ -95,7 +95,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+                            {{-- <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-group">
@@ -112,7 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group mb-0">
                                 <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i> Save
@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-12">
+            {{-- <div class="col-lg-12">
                 @if (session()->has('settings_smtp_message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <div class="alert-body">
@@ -222,7 +222,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

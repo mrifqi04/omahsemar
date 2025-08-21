@@ -19,10 +19,10 @@ class ProductDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 return view('product::products.partials.actions', compact('data'));
             })
-            ->addColumn('product_image', function ($data) {
-                $url = $data->getFirstMediaUrl('images', 'thumb');
-                return '<img src="' . $url . '" border="0" width="50" class="img-thumbnail" align="center"/>';
-            })
+            // ->addColumn('product_image', function ($data) {
+            //     $url = $data->getFirstMediaUrl('images', 'thumb');
+            //     return '<img src="' . $url . '" border="0" width="50" class="img-thumbnail" align="center"/>';
+            // })
             // ->addColumn('product_price', function ($data) {
             //     return format_currency($data->product_price);
             // })
@@ -32,7 +32,7 @@ class ProductDataTable extends DataTable
             ->addColumn('product_quantity', function ($data) {
                 return $data->product_quantity . ' ' . $data->product_unit;
             })
-            ->rawColumns(['product_image']);
+            ->rawColumns(['action']);
     }
 
     public function query(Product $model)
@@ -49,7 +49,7 @@ class ProductDataTable extends DataTable
             ->dom("<'row'<'col-md-3'l><'col-md-5 mb-2'B><'col-md-4'f>> .
                                 'tr' .
                                 <'row'<'col-md-5'i><'col-md-7 mt-2'p>>")
-            ->orderBy(7)
+            ->orderBy([6, 'desc'])
             ->buttons(
                 Button::make('excel')
                     ->text('<i class="bi bi-file-earmark-excel-fill"></i> Excel'),
@@ -65,9 +65,9 @@ class ProductDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('product_image')
-                ->title('Image')
-                ->className('text-center align-middle'),
+            // Column::computed('product_image')
+            //     ->title('Image')
+            //     ->className('text-center align-middle'),
 
             Column::make('category.category_name')
                 ->title('Category')

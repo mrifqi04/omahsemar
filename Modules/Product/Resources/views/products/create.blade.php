@@ -18,7 +18,7 @@
                 <div class="col-lg-12">
                     @include('utils.alerts')
                     <div class="form-group">
-                        <button class="btn btn-primary">Create Product <i class="bi bi-check"></i></button>
+                        <button class="btn btn-primary">Create Stock <i class="bi bi-check"></i></button>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -32,16 +32,13 @@
                                             value="{{ old('product_name') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_code">Code <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="product_code" required
+                                        <input type="text" class="form-control" name="product_code" required
                                             value="{{ old('product_code') }}">
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
+                                </div> --}}
                                 <div class="col-md-6">
                                     <label for="category_id">Category <span class="text-danger">*</span></label>
                                     <div class="input-group">
@@ -59,7 +56,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+
+                            <div class="form-row">
+                                {{-- <div class="col-md-6">
+                                    <label for="category_id">Category <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <select class="form-control" name="category_id" id="category_id" required>
+                                            <option value="" selected disabled>Select Category</option>
+                                            @foreach (\Modules\Product\Entities\Category::all() as $category)
+                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="input-group-append d-flex">
+                                            <button data-toggle="modal" data-target="#categoryCreateModal"
+                                                class="btn btn-outline-primary" type="button">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="barcode_symbology">Barcode Symbology <span
                                                 class="text-danger">*</span></label>
@@ -74,7 +91,7 @@
                                             <option value="EAN8">EAN-8</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="form-row">
@@ -119,7 +136,7 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="product_order_tax">Tax (%)</label>
                                         <input type="number" class="form-control" name="product_order_tax"
@@ -135,7 +152,7 @@
                                             <option value="2">Inclusive</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="product_unit">Unit <i class="bi bi-question-circle-fill text-info"
@@ -160,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-
+                {{--
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -177,7 +194,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </form>
     </div>

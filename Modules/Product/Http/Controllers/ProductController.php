@@ -6,6 +6,7 @@ use Modules\Product\DataTables\ProductDataTable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Modules\Product\Entities\Product;
@@ -34,7 +35,18 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
+        $host = request()->getHost(); // e.g. "tenant1.example.com"
+
+        // Extract the subdomain
+        $parts = explode('.', $host);
+        $subdomain = $parts[0];
+
+        $randomCode = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT); // 8 digit random
+        $code = strtoupper($subdomain) . '-' . $randomCode;
+
         $request->merge([
+            'product_code' => $code,
+            'product_barcode_symbology' => 'C128',
             'product_price' => 0,
             'exp_date' => date('Y-m-d', strtotime('+' . $request->exp_date . ' days')),
         ]);

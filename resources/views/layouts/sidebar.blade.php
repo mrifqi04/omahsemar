@@ -1,17 +1,16 @@
 @php
-    $logo = settings()->getFirstMediaUrl('images_' . tenant('id')) ?: asset('images/default-logo.png');
+    // $logo = settings()->getFirstMediaUrl('images_' . tenant('id')) ?: asset('images/default-logo.png');
     // dd(settings()->getFirstMediaUrl('images_' . tenant('id')));
 @endphp
 
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show {{ request()->routeIs('app.pos.*') ? 'c-sidebar-minimized' : '' }}"
     id="sidebar">
-    {{-- {{ dd(settings()->getFirstMediaUrl('images_' . tenant('id'))) }} --}}
-    <div class="c-sidebar-brand d-md-down-none">
+    {{-- <div class="c-sidebar-brand d-md-down-none">
         <a href="{{ route('home') }}">
             <img class="c-sidebar-brand-full" src="{{ $logo }}" alt="Site Logo" width="110">
             <img class="c-sidebar-brand-minimized" src="{{ $logo }}" alt="Site Logo" width="40">
         </a>
-    </div>
+    </div> --}}
     <ul class="c-sidebar-nav">
         @include('layouts.menu')
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">

@@ -20,7 +20,7 @@
     </li>
     @endcan --}}
 
-    @can('show_notifications')
+    {{-- @can('show_notifications')
         <li class="c-header-nav-item dropdown d-md-down-none mr-2">
             <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                 aria-expanded="false">
@@ -55,7 +55,7 @@
                 @endforelse
             </div>
         </li>
-    @endcan
+    @endcan --}}
 
     <li class="c-header-nav-item dropdown">
         <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"

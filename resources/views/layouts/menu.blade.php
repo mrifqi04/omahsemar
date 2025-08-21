@@ -8,7 +8,7 @@
     <li
         class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('products.*') || request()->routeIs('product-categories.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon bi bi-journal-bookmark" style="line-height: 1;"></i> Products
+            <i class="c-sidebar-nav-icon bi bi-journal-bookmark" style="line-height: 1;"></i> Stock Inventory
         </a>
         <ul class="c-sidebar-nav-dropdown-items">
             @can('access_product_categories')
@@ -30,23 +30,23 @@
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('products.index') ? 'c-active' : '' }}"
                     href="{{ route('products.index') }}">
-                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> All Products
+                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> Stock List
                 </a>
             </li>
-            @can('print_barcodes')
+            {{-- @can('print_barcodes')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->routeIs('barcode.print') ? 'c-active' : '' }}"
                         href="{{ route('barcode.print') }}">
                         <i class="c-sidebar-nav-icon bi bi-printer" style="line-height: 1;"></i> Print Barcode
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
         </ul>
     </li>
 @endcan
 
 @can('access_adjustments')
-    <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('adjustments.*') ? 'c-show' : '' }}">
+    {{-- <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('adjustments.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
             <i class="c-sidebar-nav-icon bi bi-clipboard-check" style="line-height: 1;"></i> Stock Adjustments
         </a>
@@ -66,6 +66,12 @@
                 </a>
             </li>
         </ul>
+    </li> --}}
+    <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link {{ request()->routeIs('adjustments.*') ? 'c-active' : '' }}"
+            href="{{ route('adjustments.index') }}">
+            <i class="c-sidebar-nav-icon bi bi-clipboard-check" style="line-height: 1;"></i> Stock Adjustments
+        </a>
     </li>
 @endcan
 
@@ -207,7 +213,7 @@
     </li>
 @endcan --}}
 
-@can('access_expenses')
+{{-- @can('access_expenses')
     <li
         class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('expenses.*') || request()->routeIs('expense-categories.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
@@ -238,7 +244,7 @@
             </li>
         </ul>
     </li>
-@endcan
+@endcan --}}
 
 @can('access_customers|access_suppliers')
     <li

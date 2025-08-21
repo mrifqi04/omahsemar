@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3">
+            {{-- <div class="col-lg-3">
                 <div class="card h-100">
                     <div class="card-body">
                         @forelse($product->getMedia('images') as $media)
@@ -108,7 +108,7 @@
                         @endforelse
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
