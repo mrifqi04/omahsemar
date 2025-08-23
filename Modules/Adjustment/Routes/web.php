@@ -14,4 +14,5 @@
 Route::group(['middleware' => 'auth'], function () {
     //Product Adjustment
     Route::resource('adjustments', 'AdjustmentController');
+    Route::get('/list/stock', 'AdjustmentController@listStock')->name('adjustments.list-stock');
 });

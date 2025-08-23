@@ -2,6 +2,7 @@
 
 namespace Modules\Product\DataTables;
 
+use Carbon\Carbon;
 use Modules\Product\Entities\Product;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -31,6 +32,16 @@ class ProductDataTable extends DataTable
             })
             ->addColumn('product_quantity', function ($data) {
                 return $data->product_quantity . ' ' . $data->product_unit;
+            })
+            ->editColumn('exp_date', function ($row) {
+                if (!$row->exp_date) {
+                    return '-';
+                }
+
+                $expDate = Carbon::parse($row->exp_date);
+                $daysLeft = Carbon::now()->diffInDays($expDate, false); // false = allow negative
+
+                return $daysLeft . ' days'; // e.g., 10, 5, -2
             })
             ->rawColumns(['action']);
     }
@@ -89,8 +100,12 @@ class ProductDataTable extends DataTable
             //     ->title('Price')
             //     ->className('text-center align-middle'),
 
-            Column::computed('product_quantity')
-                ->title('Quantity')
+            // Column::computed('product_quantity')
+            //     ->title('Quantity')
+            //     ->className('text-center align-middle'),
+
+            Column::computed('exp_date')
+                ->title('Expired Days')
                 ->className('text-center align-middle'),
 
             Column::computed('action')
