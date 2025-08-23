@@ -111,8 +111,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exp_date">Expired Days <span class="text-danger">*</span></label>
-                                        <input id="exp_date" type="number" class="form-control" name="exp_date" required
-                                            value="{{ old('exp_date') }}">
+                                        <input id="exp_date" type="number" min="1" class="form-control"
+                                            name="exp_date" required value="{{ old('exp_date') }}">
                                     </div>
                                 </div>
                             </div>
