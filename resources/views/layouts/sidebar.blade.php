@@ -1,13 +1,9 @@
-@php
-    $logo = settings()->getFirstMediaUrl('images_' . tenant('id')) ?: asset('images/default-logo.png');
-@endphp
-
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show {{ request()->routeIs('app.pos.*') ? 'c-sidebar-minimized' : '' }}"
     id="sidebar">
-    <div class="c-sidebar-brand d-md-down-none">
+    <div class="c-sidebar-brand d-md-down-none my-10 mt-10">
         <a href="{{ route('home') }}">
-            <img class="c-sidebar-brand-full" src="{{ $logo }}" alt="Site Logo" width="110">
-            <img class="c-sidebar-brand-minimized" src="{{ $logo }}" alt="Site Logo" width="40">
+            <img class="c-sidebar-brand-full" src="{{ asset('images/logo.jpeg') }}" alt="Site Logo" width="110">
+            <img class="c-sidebar-brand-minimized" src="{{ asset('images/logo.jpeg') }}" alt="Site Logo" width="40">
         </a>
     </div>
     <ul class="c-sidebar-nav">
