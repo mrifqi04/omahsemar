@@ -25,6 +25,7 @@
                     <th class="align-middle">Stock</th>
                     <th class="align-middle">Quantity</th>
                     <th class="align-middle">Type</th>
+                    <th class="align-middle">Item Location</th>
                     <th class="align-middle">Action</th>
                 </tr>
             </thead>
@@ -70,6 +71,10 @@
                                 @endif
                             </td>
                             <td class="align-middle text-center">
+                                <input type="text" name="item_locations[]" class="form-control"
+                                    value="{{ $product['item_location'] ?? '' }}" required>
+                            </td>
+                            <td class="align-middle text-center">
                                 <button type="button" class="btn btn-danger"
                                     wire:click="removeProduct({{ $key }})">
                                     <i class="bi bi-trash"></i>
@@ -79,7 +84,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="7" class="text-center">
+                        <td colspan="8" class="text-center">
                             <span class="text-danger">
                                 Please search & select products!
                             </span>

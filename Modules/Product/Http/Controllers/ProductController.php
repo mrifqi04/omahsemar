@@ -48,6 +48,7 @@ class ProductController extends Controller
             'product_code' => $code,
             'product_barcode_symbology' => 'C128',
             'product_price' => 0,
+            'product_quantity' => 0,
             'exp_date' => date('Y-m-d', strtotime('+' . $request->exp_date . ' days')),
         ]);
 

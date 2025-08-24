@@ -4,6 +4,7 @@ namespace Modules\Product\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -15,11 +16,17 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_name' => ['required', 'string', 'max:255', 'unique:products,product_name'],
+            'product_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('products', 'product_name')
+                    ->where(fn($query) => $query->where('category_id', $this->category_id)),
+            ],
             // 'product_code' => ['required', 'numeric', 'max:255', 'unique:products,product_code'],
             // 'product_barcode_symbology' => ['required', 'string', 'max:255'],
             'product_unit' => ['required', 'string', 'max:255'],
-            'product_quantity' => ['required', 'integer', 'min:1'],
+            // 'product_quantity' => ['required', 'integer', 'min:1'],
             'product_cost' => ['required', 'numeric', 'max:2147483647'],
             // 'product_price' => ['required', 'numeric', 'max:2147483647'],
             'product_stock_alert' => ['required', 'integer', 'min:0'],

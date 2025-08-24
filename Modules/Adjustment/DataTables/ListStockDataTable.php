@@ -17,21 +17,27 @@ class ListStockDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addIndexColumn();
-        // ->addColumn('action', function ($data) {
-        //     return view('adjustment::partials.actions', compact('data'));
-        // });
+            ->addIndexColumn()
+            ->addColumn('inventory_value', function ($row) {
+                $value = ($row->product->product_cost ?? 0) * ($row->product->product_quantity ?? 0);
+                return format_currency($value);
+            })
+            ->addColumn('formated_product_cost', function ($row) {
+                $value = ($row->product->product_cost ?? 0);
+                return format_currency($value);
+            })
+            ->editColumn('created_at', function ($row) {
+                return $row->created_at ? $row->created_at->format('d F, Y') : '-';
+            });
     }
 
     public function query(AdjustedProduct $model)
     {
         return $model->newQuery()
             ->select(
-                'product_id',
-                DB::raw("SUM(CASE WHEN type = 'in' THEN quantity ELSE -quantity END) as stock")
+                'adjusted_products.*',
             )
-            ->with('product')
-            ->groupBy('product_id');
+            ->with('product.category');
     }
 
     public function html()
@@ -43,7 +49,7 @@ class ListStockDataTable extends DataTable
             ->dom("<'row'<'col-md-3'l><'col-md-5 mb-2'B><'col-md-4'f>> .
                                         'tr' .
                                         <'row'<'col-md-5'i><'col-md-7 mt-2'p>>")
-            ->orderBy(2)
+            ->orderBy(0)
             ->buttons(
                 Button::make('excel')
                     ->text('<i class="bi bi-file-earmark-excel-fill"></i> Excel'),
@@ -65,12 +71,40 @@ class ListStockDataTable extends DataTable
                 ->orderable(false)
                 ->className('text-center align-middle'),
 
+            Column::make('item_location')
+                ->title('Item Location')
+                ->className('text-center align-middle'),
+
             Column::make('product.product_name')
-                ->title('Product')
+                ->title('Item')
+                ->className('text-center align-middle'),
+
+            Column::make('product.category.category_name')
+                ->title('Item Category')
+                ->className('text-center align-middle'),
+
+            Column::make('product.product_code')
+                ->title('Item Number')
+                ->className('text-center align-middle'),
+
+            Column::make('created_at')
+                ->title('Stock Date')
                 ->className('text-center align-middle'),
 
             Column::make('product.product_quantity')
                 ->title('Stock')
+                ->className('text-center align-middle'),
+
+            Column::make('product.product_stock_alert')
+                ->title('Min Stock')
+                ->className('text-center align-middle'),
+
+            Column::computed('inventory_value') // ✅ computed column
+                ->title('Inventory Value')
+                ->className('text-center align-middle'),
+
+            Column::make('formated_product_cost')
+                ->title('Unit Cost')
                 ->className('text-center align-middle'),
         ];
     }

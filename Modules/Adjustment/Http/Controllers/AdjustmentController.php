@@ -49,6 +49,7 @@ class AdjustmentController extends Controller
             'note'        => 'nullable|string|max:1000',
             'product_ids' => 'required',
             'quantities'  => 'required',
+            'item_locations'  => 'required',
             'types'       => 'required'
         ]);
 
@@ -63,7 +64,8 @@ class AdjustmentController extends Controller
                     'adjustment_id' => $adjustment->id,
                     'product_id'    => $id,
                     'quantity'      => $request->quantities[$key],
-                    'type'          => $request->types[$key]
+                    'type'          => $request->types[$key],
+                    'item_location' => $request->item_locations[$key]
                 ]);
 
                 $product = Product::findOrFail($id);
