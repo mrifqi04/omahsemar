@@ -21,13 +21,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th class="align-middle">Product</th>
-                        <th class="align-middle text-center">Net Unit Price</th>
-                        <th class="align-middle text-center">Stock</th>
-                        <th class="align-middle text-center">Quantity</th>
-                        <th class="align-middle text-center">Discount</th>
-                        <th class="align-middle text-center">Tax</th>
+                        <th class="align-middle text-center">Unit</th>
+                        <th class="align-middle text-center">QTY PO</th>
+                        <th class="align-middle text-center">QTY Received</th>
+                        <th class="align-middle text-center">Notes</th>
+                        <th class="align-middle text-center">Unit Price</th>
                         <th class="align-middle text-center">Sub Total</th>
-                        <th class="align-middle text-center">Action</th>
+                        {{-- <th class="align-middle text-center">Action</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -41,41 +41,37 @@
                                     </span>
                                 </td>
 
-                                <td x-data="{ open{{ $cart_item->id }}: false }" class="align-middle text-center">
-                                    <span x-show="!open{{ $cart_item->id }}"
-                                        @click="open{{ $cart_item->id }} = !open{{ $cart_item->id }}">{{ format_currency($cart_item->price) }}</span>
-
-                                    <div x-show="open{{ $cart_item->id }}">
-                                        @include('livewire.includes.product-cart-price')
-                                    </div>
+                                <td class="align-middle text-center text-center">
+                                    {{ $cart_item->options->unit }}
                                 </td>
 
                                 <td class="align-middle text-center text-center">
                                     <span
-                                        class="badge badge-info">{{ $cart_item->options->stock . ' ' . $cart_item->options->unit }}</span>
+                                        class="badge badge-info">{{ $cart_item->options->qty_po . ' ' . $cart_item->options->unit }}</span>
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    @include('livewire.includes.product-cart-quantity')
+                                    @include('livewire.includes.gr-cart-quantity')
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    {{ format_currency($cart_item->options->product_discount) }}
+                                    @include('livewire.includes.gr-cart-note')
                                 </td>
 
-                                <td class="align-middle text-center">
-                                    {{ format_currency($cart_item->options->product_tax) }}
+                                <td x-data="{ open{{ $cart_item->id }}: false }" class="align-middle text-center">
+                                    <span x-show="!open{{ $cart_item->id }}"
+                                        @click="open{{ $cart_item->id }} = !open{{ $cart_item->id }}">{{ format_currency($cart_item->price) }}</span>
                                 </td>
 
                                 <td class="align-middle text-center">
                                     {{ format_currency($cart_item->options->sub_total) }}
                                 </td>
 
-                                <td class="align-middle text-center">
+                                {{-- <td class="align-middle text-center">
                                     <a href="#" wire:click.prevent="removeItem('{{ $cart_item->rowId }}')">
                                         <i class="bi bi-x-circle font-2xl text-danger"></i>
                                     </a>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     @else

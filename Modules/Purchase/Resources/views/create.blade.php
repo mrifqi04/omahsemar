@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                {{-- <div class="col-lg-4">
                                     <div class="from-group">
                                         <div class="form-group">
                                             <label for="date">Date <span class="text-danger">*</span></label>
@@ -55,7 +55,7 @@
                                                 value="{{ now()->format('Y-m-d') }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <livewire:product-cart :cartInstance="'purchase'" />
@@ -86,7 +86,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                {{-- <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="paid_amount">Amount Paid <span class="text-danger">*</span></label>
                                         <div class="input-group">
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="form-group">

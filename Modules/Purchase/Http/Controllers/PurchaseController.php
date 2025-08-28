@@ -2,6 +2,7 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
+use Carbon\Carbon;
 use Modules\Purchase\DataTables\PurchaseDataTable;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Purchase\Entities\PurchasePayment;
 use Modules\Purchase\Http\Requests\StorePurchaseRequest;
 use Modules\Purchase\Http\Requests\UpdatePurchaseRequest;
+use Modules\Setting\Entities\Setting;
 
 class PurchaseController extends Controller
 {
@@ -42,6 +44,8 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         DB::transaction(function () use ($request) {
+            $setting = Setting::first();
+
             $due_amount = $request->total_amount - $request->paid_amount;
             if ($due_amount == $request->total_amount) {
                 $payment_status = 'Unpaid';
@@ -52,13 +56,13 @@ class PurchaseController extends Controller
             }
 
             $purchase = Purchase::create([
-                'date' => $request->date,
+                'date' => Carbon::parse($request->date)->format('Y-m-d'),
                 'supplier_id' => $request->supplier_id,
                 'supplier_name' => Supplier::findOrFail($request->supplier_id)->supplier_name,
-                'tax_percentage' => $request->tax_percentage,
+                'tax_percentage' => $setting->tax,
                 'discount_percentage' => $request->discount_percentage,
                 'shipping_amount' => $request->shipping_amount * 100,
-                'paid_amount' => $request->paid_amount * 100,
+                'paid_amount' => 0,
                 'total_amount' => $request->total_amount * 100,
                 'due_amount' => $due_amount * 100,
                 'status' => $request->status,
@@ -270,6 +274,9 @@ class PurchaseController extends Controller
                     'product_name' => $cart_item->name,
                     'product_code' => $cart_item->options->code,
                     'quantity' => $cart_item->qty,
+                    'qty_po' => $cart_item->options->qty_po,
+                    'qty_gr' => $cart_item->options->qty_gr,
+                    'note' => $cart_item->options->note,
                 ]);
             }
 

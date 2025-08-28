@@ -24,8 +24,8 @@
                         <th class="align-middle text-center">Net Unit Price</th>
                         <th class="align-middle text-center">Stock</th>
                         <th class="align-middle text-center">Quantity</th>
-                        <th class="align-middle text-center">Discount</th>
-                        <th class="align-middle text-center">Tax</th>
+                        {{-- <th class="align-middle text-center">Discount</th> --}}
+                        {{-- <th class="align-middle text-center">Tax</th> --}}
                         <th class="align-middle text-center">Sub Total</th>
                         <th class="align-middle text-center">Action</th>
                     </tr>
@@ -60,13 +60,13 @@
                                     @include('livewire.includes.product-cart-quantity')
                                 </td>
 
-                                <td class="align-middle text-center">
+                                {{-- <td class="align-middle text-center">
                                     {{ format_currency($cart_item->options->product_discount) }}
-                                </td>
+                                </td> --}}
 
-                                <td class="align-middle text-center">
+                                {{-- <td class="align-middle text-center">
                                     {{ format_currency($cart_item->options->product_tax) }}
-                                </td>
+                                </td> --}}
 
                                 <td class="align-middle text-center">
                                     {{ format_currency($cart_item->options->sub_total) }}
@@ -92,7 +92,6 @@
             </table>
         </div>
     </div>
-
     <div class="row justify-content-md-end">
         <div class="col-md-4">
             <div class="table-responsive">
@@ -125,15 +124,14 @@
     </div>
 
     <input type="hidden" name="total_amount" value="{{ $total_with_shipping }}">
-
     <div class="form-row">
-        <div class="col-lg-4">
+        {{-- <div class="col-lg-4">
             <div class="form-group">
                 <label for="tax_percentage">Tax (%)</label>
                 <input wire:model.blur="global_tax" type="number" class="form-control" name="tax_percentage"
                     min="0" max="100" value="{{ $global_tax }}" required>
             </div>
-        </div>
+        </div> --}}
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="discount_percentage">Discount (%)</label>
@@ -149,4 +147,5 @@
             </div>
         </div>
     </div>
+
 </div>

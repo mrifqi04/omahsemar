@@ -83,7 +83,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="form-row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="company_address">Tax % <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="tax"
+                                            value="{{ $settings->tax }}">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -94,6 +102,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
                             {{-- <div class="col-lg-12">
                                 <div class="card">

@@ -136,77 +136,87 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header d-flex flex-wrap align-items-center">
-                        <div>
-                            Good Receipt Reference: <strong>{{ $purchase->goodreceipt->reference }}</strong>
+        @if ($purchase->goodreceipt)
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap align-items-center">
+                            <div>
+                                Good Receipt Reference: <strong>{{ $purchase->goodreceipt->reference }}</strong>
+                            </div>
+                            <a target="_blank" class="btn btn-sm btn-secondary mfs-auto mfe-1 d-print-none"
+                                href="{{ route('purchases.pdf', $purchase->id) }}">
+                                <i class="bi bi-printer"></i> Print
+                            </a>
+                            <a target="_blank" class="btn btn-sm btn-info mfe-1 d-print-none"
+                                href="{{ route('purchases.pdf', $purchase->id) }}">
+                                <i class="bi bi-save"></i> Save
+                            </a>
                         </div>
-                        <a target="_blank" class="btn btn-sm btn-secondary mfs-auto mfe-1 d-print-none"
-                            href="{{ route('purchases.pdf', $purchase->id) }}">
-                            <i class="bi bi-printer"></i> Print
-                        </a>
-                        <a target="_blank" class="btn btn-sm btn-info mfe-1 d-print-none"
-                            href="{{ route('purchases.pdf', $purchase->id) }}">
-                            <i class="bi bi-save"></i> Save
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-4">
-                            <div class="col-sm-4 mb-3 mb-md-0">
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-sm-4 mb-3 mb-md-0">
 
-                            </div>
-
-                            <div class="col-sm-4 mb-3 mb-md-0">
-
-                            </div>
-
-                            <div class="col-sm-4 mb-3 mb-md-0">
-                                <h6 class="mb-2 border-bottom pb-2">Received Info:</h6>
-                                <div>Date: {{ \Carbon\Carbon::parse($purchase->goodReceipt->date)->format('d M, Y') }}
                                 </div>
+
+                                <div class="col-sm-4 mb-3 mb-md-0">
+
+                                </div>
+
+                                <div class="col-sm-4 mb-3 mb-md-0">
+                                    <h6 class="mb-2 border-bottom pb-2">Received Info:</h6>
+                                    <div>Date: {{ \Carbon\Carbon::parse($purchase->goodReceipt->date)->format('d M, Y') }}
+                                    </div>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div class="table-responsive-sm">
-                            <table class="table table-striped text-center align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Barcode</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($purchase->goodReceipt->goodReceiptDetails as $item)
+                            <div class="table-responsive-sm">
+                                <table class="table table-striped text-center align-middle">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                {{ $item->product_name }} <br>
-                                                <span class="badge badge-success">
-                                                    {{ $item->product_code }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {{ $item->quantity }}
-                                            </td>
-                                            <td>
-                                                {!! \Milon\Barcode\Facades\DNS1DFacade::getBarCodeSVG(
-                                                    $item->product_code,
-                                                    $item->product->product_barcode_symbology,
-                                                    2,
-                                                    110,
-                                                ) !!}
-                                            </td>
+                                            <th>Product</th>
+                                            <th>QTY PO</th>
+                                            <th>QTY GR</th>
+                                            <th>Notes</th>
+                                            <th>Barcode</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($purchase->goodReceipt->goodReceiptDetails as $item)
+                                            <tr>
+                                                <td>
+                                                    {{ $item->product_name }} <br>
+                                                    <span class="badge badge-success">
+                                                        {{ $item->product_code }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {{ $item->qty_po }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->qty_gr }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->note }}
+                                                </td>
+                                                <td>
+                                                    {!! \Milon\Barcode\Facades\DNS1DFacade::getBarCodeSVG(
+                                                        $item->product_code,
+                                                        $item->product->product_barcode_symbology,
+                                                        2,
+                                                        110,
+                                                    ) !!}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 @endsection

@@ -11,6 +11,7 @@ class SearchPurchase extends Component
     public $query;
     public $search_results;
     public $how_many;
+    public $selectedPurchaseId;
 
     public function mount()
     {
@@ -47,6 +48,7 @@ class SearchPurchase extends Component
     public function selectPurchase($purchaseId)
     {
         $purchase = Purchase::findOrFail($purchaseId);
+        $this->selectedPurchaseId = $purchaseId;
 
         $products = $purchase->purchaseDetails->map(function ($detail) {
             return [
@@ -67,7 +69,9 @@ class SearchPurchase extends Component
             'date'        => \Carbon\Carbon::parse($purchase->date)->format('Y-m-d'),
         ]);
 
-        $this->dispatch('purchaseProductsSelected', $products)
-            ->to('gr-cart');
+        $this->dispatch('purchaseProductsSelected', [
+            'purchase_id' => $purchaseId,
+            'products' => $products,
+        ])->to('gr-cart');
     }
 }

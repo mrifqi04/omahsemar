@@ -6,6 +6,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use Modules\Product\Entities\Product;
+use Modules\Purchase\Entities\PurchaseDetail;
 
 class GrCart extends Component
 {
@@ -22,12 +23,14 @@ class GrCart extends Component
     public $item_discount;
     public $unit_price;
     public $data;
+    public $selectedPurchaseId;
+    public $notes;
+    public $qty_gr;
 
     private $product;
 
     public function mount($cartInstance, $data = null)
     {
-
         $this->cart_instance = $cartInstance;
 
         if ($data) {
@@ -43,8 +46,10 @@ class GrCart extends Component
             $cart_items = Cart::instance($this->cart_instance)->content();
 
             foreach ($cart_items as $cart_item) {
+                $this->notes[$cart_item->id] = $cart_item->options->note ?? '';
                 $this->check_quantity[$cart_item->id] = [$cart_item->options->stock];
                 $this->quantity[$cart_item->id] = $cart_item->qty;
+                $this->qty_gr[$cart_item->id] = $cart_item->options->qty_gr ?? 0;
                 $this->unit_price[$cart_item->id] = $cart_item->price;
                 $this->discount_type[$cart_item->id] = $cart_item->options->product_discount_type;
                 if ($cart_item->options->product_discount_type == 'fixed') {
@@ -54,6 +59,8 @@ class GrCart extends Component
                 }
             }
         } else {
+            $this->notes = [];
+            $this->qty_gr = [];
             $this->global_discount = 0;
             $this->global_tax = 0;
             $this->shipping = 0.00;
@@ -74,13 +81,19 @@ class GrCart extends Component
         ]);
     }
 
-    public function purchaseProductsSelected($products)
+    public function purchaseProductsSelected($payload)
     {
         Cart::instance($this->cart_instance)->destroy();
+        $this->selectedPurchaseId = $payload['purchase_id'];
+        $products = $payload['products'];
+
         foreach ($products as $product) {
             $cart = Cart::instance($this->cart_instance);
+            $productF = Product::where('id', $product['product_id'])->first();
+            $poDetail = PurchaseDetail::where('purchase_id', $this->selectedPurchaseId)->where('product_id', $product['product_id'])->first();
 
             $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
+                dd($cartItem);
                 return $cartItem->id == $product['product_id'];
             });
 
@@ -100,9 +113,12 @@ class GrCart extends Component
                     'sub_total'             => $product['sub_total'],
                     'code'                  => $product['product_code'],
                     'stock'                 => $product['quantity'], // atau ambil stok dari DB
-                    'unit'                  => '', // kalau ada unit
+                    'unit'                  => $productF->product_unit,
+                    'qty_po'                  => $poDetail->quantity,
                     'product_tax'           => 0,
-                    'unit_price'            => $product['unit_price']
+                    'unit_price'            => $product['unit_price'],
+                    'qty_gr'            => 0,
+                    'note' => ''
                 ]
             ]);
 
@@ -130,6 +146,7 @@ class GrCart extends Component
 
     public function updateQuantity($row_id, $product_id)
     {
+        dd($product_id);
         if ($this->cart_instance == 'sale' || $this->cart_instance == 'purchase_return') {
             if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
                 session()->flash('message', 'The requested quantity is not available in stock.');
@@ -158,6 +175,28 @@ class GrCart extends Component
                 'unit_price'            => $cart_item->options->unit_price,
                 'product_discount'      => $cart_item->options->product_discount,
                 'product_discount_type' => $cart_item->options->product_discount_type,
+            ]
+        ]);
+    }
+
+    public function updateQuantityGr($row_id, $product_id)
+    {
+
+        $cart_item = Cart::instance($this->cart_instance)->get($row_id);
+        $new_qty_gr = $this->qty_gr[$product_id] ?? 0;
+        Cart::instance($this->cart_instance)->update($row_id, [
+            'options' => [
+                'sub_total'             => $cart_item->price * $cart_item->qty,
+                'code'                  => $cart_item->options->code,
+                'stock'                 => $cart_item->options->stock,
+                'unit'                  => $cart_item->options->unit,
+                'product_tax'           => $cart_item->options->product_tax,
+                'unit_price'            => $cart_item->options->unit_price,
+                'product_discount'      => $cart_item->options->product_discount,
+                'product_discount_type' => $cart_item->options->product_discount_type,
+                'qty_po'                => $cart_item->options->qty_po,
+                'qty_gr'                => (int) $new_qty_gr,
+                'note' => $this->notes[$product_id] ?? '',
             ]
         ]);
     }
