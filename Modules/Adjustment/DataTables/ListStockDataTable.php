@@ -18,6 +18,9 @@ class ListStockDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
+            ->editColumn('total_items', function ($row) {
+                return $row->total_items ?? 0;
+            })
             ->addColumn('inventory_value', function ($row) {
                 $value = ($row->product->product_cost ?? 0) * ($row->product->product_quantity ?? 0);
                 return format_currency($value);
@@ -35,9 +38,12 @@ class ListStockDataTable extends DataTable
     {
         return $model->newQuery()
             ->select(
-                'adjusted_products.*',
+                'adjusted_products.product_id',
+                'adjusted_products.item_location',
+                DB::raw('SUM(adjusted_products.quantity) as total_items')
             )
-            ->with('product.category');
+            ->with('product.category')
+            ->groupBy(['adjusted_products.product_id', 'adjusted_products.item_location']);
     }
 
     public function html()
@@ -91,7 +97,7 @@ class ListStockDataTable extends DataTable
                 ->title('Stock Date')
                 ->className('text-center align-middle'),
 
-            Column::make('product.product_quantity')
+            Column::make('total_items')
                 ->title('Stock')
                 ->className('text-center align-middle'),
 
