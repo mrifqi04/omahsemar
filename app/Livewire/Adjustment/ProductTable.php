@@ -14,7 +14,8 @@ class ProductTable extends Component
     public $products;
     public $hasAdjustments;
 
-    public function mount($adjustedProducts = null) {
+    public function mount($adjustedProducts = null)
+    {
         $this->products = [];
 
         if ($adjustedProducts) {
@@ -25,11 +26,14 @@ class ProductTable extends Component
         }
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.adjustment.product-table');
     }
 
-    public function productSelected($product) {
+    public function productSelected($product)
+    {
+
         switch ($this->hasAdjustments) {
             case true:
                 if (in_array($product, array_map(function ($adjustment) {
@@ -46,11 +50,19 @@ class ProductTable extends Component
             default:
                 return session()->flash('message', 'Something went wrong!');
         }
+        // Load product as model
+        $product = Product::find($product['id']);
 
-        array_push($this->products, $product);
+        // Add stock information without overwriting entire array
+        $productData = $product->toArray();
+        $productData['stock'] = $product->sumStock();
+
+        // Push product data into products array
+        $this->products[] = $productData;
     }
 
-    public function removeProduct($key) {
+    public function removeProduct($key)
+    {
         unset($this->products[$key]);
     }
 }

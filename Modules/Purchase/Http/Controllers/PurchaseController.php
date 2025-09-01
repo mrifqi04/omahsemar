@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Modules\Adjustment\Entities\AdjustedProduct;
+use Modules\Adjustment\Entities\Adjustment;
 use Modules\People\Entities\Supplier;
 use Modules\Product\Entities\Product;
 use Modules\Purchase\Entities\GoodReceipt;
@@ -19,6 +21,7 @@ use Modules\Purchase\Entities\PurchasePayment;
 use Modules\Purchase\Http\Requests\StorePurchaseRequest;
 use Modules\Purchase\Http\Requests\UpdatePurchaseRequest;
 use Modules\Setting\Entities\Setting;
+use Modules\Stock\Entities\Stock;
 
 class PurchaseController extends Controller
 {
@@ -266,8 +269,24 @@ class PurchaseController extends Controller
                 'supplier_name' => Supplier::findOrFail($request->supplier_id)->supplier_name,
                 'note' => $request->note,
             ]);
+            $purchase = Purchase::findOrFail($request->purchase_id);
+            $purchase->status = 'Completed';
+            $purchase->save();
+
+            $adjustment = Adjustment::create([
+                'date' => $request->date,
+                'note' => $request->note
+            ]);
 
             foreach (Cart::instance('gr')->content() as $cart_item) {
+                AdjustedProduct::create([
+                    'adjustment_id' => $adjustment->id,
+                    'product_id'    => $cart_item->id,
+                    'quantity'      => $cart_item->options->qty_gr,
+                    'type'          => 'add',
+                    'item_location' => $request->item_location
+                ]);
+
                 GoodReceiptDetail::create([
                     'good_receipt_id' => $gr->id,
                     'product_id' => $cart_item->id,
@@ -278,6 +297,17 @@ class PurchaseController extends Controller
                     'qty_gr' => $cart_item->options->qty_gr,
                     'note' => $cart_item->options->note,
                 ]);
+
+                Stock::updateOrCreate(
+                    [
+                        'product_id' => $cart_item->id,
+                        'item_location' => $request->item_location
+                    ],
+                    [
+                        'stock' => DB::raw('stock + ' . (int) $cart_item->options->qty_gr),
+                        'stock_date' => Carbon::now(),
+                    ]
+                );
             }
 
             Cart::instance('gr')->destroy();

@@ -40,7 +40,7 @@
                                 {{ $product['product_code'] ?? $product['product']['product_code'] }}</td>
                             <td class="align-middle text-center">
                                 <span class="badge badge-info">
-                                    {{ $product['product_quantity'] ?? $product['product']['product_quantity'] }}
+                                    {{ $product['stock'] ?? $product['stock'] }}
                                     {{ $product['product_unit'] ?? $product['product']['product_unit'] }}
                                 </span>
                             </td>

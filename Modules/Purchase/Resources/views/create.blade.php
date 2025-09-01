@@ -58,6 +58,13 @@
                                 </div> --}}
                             </div>
 
+                            <div class="mt-3 mb-4 text-danger font-sm">*Note : Make sure to click
+                                <i class="bi bi-check text-info"></i> after
+                                add quantity
+                                to calculate
+                                sub
+                                total
+                            </div>
                             <livewire:product-cart :cartInstance="'purchase'" />
 
                             <div class="form-row">
@@ -67,7 +74,7 @@
                                         <select class="form-control" name="status" id="status" required>
                                             <option value="Pending">Pending</option>
                                             <option value="Ordered">Ordered</option>
-                                            <option value="Completed">Completed</option>
+                                            {{-- <option value="Completed">Completed</option> --}}
                                         </select>
                                     </div>
                                 </div>

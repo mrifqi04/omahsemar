@@ -4,6 +4,7 @@ namespace Modules\Adjustment\DataTables;
 
 use Illuminate\Support\Facades\DB;
 use Modules\Adjustment\Entities\AdjustedProduct;
+use Modules\Stock\Entities\Stock;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -22,7 +23,7 @@ class ListStockDataTable extends DataTable
                 return $row->total_items ?? 0;
             })
             ->addColumn('inventory_value', function ($row) {
-                $value = ($row->product->product_cost ?? 0) * ($row->product->product_quantity ?? 0);
+                $value = ($row->product->product_cost ?? 0) * ($row->stock ?? 0);
                 return format_currency($value);
             })
             ->addColumn('formated_product_cost', function ($row) {
@@ -34,16 +35,12 @@ class ListStockDataTable extends DataTable
             });
     }
 
-    public function query(AdjustedProduct $model)
+    public function query(Stock $model)
     {
         return $model->newQuery()
             ->select(
-                'adjusted_products.product_id',
-                'adjusted_products.item_location',
-                DB::raw('SUM(adjusted_products.quantity) as total_items')
-            )
-            ->with('product.category')
-            ->groupBy(['adjusted_products.product_id', 'adjusted_products.item_location']);
+                'stocks.*',
+            )->with('product.category');
     }
 
     public function html()
@@ -93,11 +90,11 @@ class ListStockDataTable extends DataTable
                 ->title('Item Number')
                 ->className('text-center align-middle'),
 
-            Column::make('created_at')
+            Column::make('stock_date')
                 ->title('Stock Date')
                 ->className('text-center align-middle'),
 
-            Column::make('total_items')
+            Column::make('stock')
                 ->title('Stock')
                 ->className('text-center align-middle'),
 

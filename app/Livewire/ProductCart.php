@@ -77,7 +77,7 @@ class ProductCart extends Component
     public function productSelected($product)
     {
         $setting = Setting::first();
-
+        $productF = Product::find($product['id']);
         $cart = Cart::instance($this->cart_instance);
 
         $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
@@ -103,7 +103,7 @@ class ProductCart extends Component
                 'product_discount_type' => 'fixed',
                 'sub_total'             => $this->calculate($product)['sub_total'],
                 'code'                  => $product['product_code'],
-                'stock'                 => $product['product_quantity'],
+                'stock'                 => $productF->sumStock(),
                 'unit'                  => $product['product_unit'],
                 'product_tax'           => $this->calculate($product)['product_tax'],
                 'unit_price'            => $this->calculate($product)['unit_price']

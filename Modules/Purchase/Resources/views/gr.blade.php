@@ -65,7 +65,17 @@
 
                                 </div>
                                 <div class="col-lg-4">
-
+                                    <div class="form-group">
+                                        <label for="item_location">Item Stored Location <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-control" name="item_location" id="item_location" required>
+                                            @foreach (\Modules\Adjustment\Entities\AdjustedProduct::select('item_location')->distinct()->get() as $itemLocation)
+                                                <option value="{{ $itemLocation->item_location }}">
+                                                    {{ $itemLocation->item_location }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="from-group">
@@ -76,6 +86,14 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="mt-3 mb-4 text-danger font-sm">*Note : Make sure to click
+                                <i class="bi bi-check text-info"></i> after
+                                add quantity & notes
+                                to calculate
+                                sub
+                                total and add note
                             </div>
 
                             <livewire:gr-cart :cartInstance="'gr'" />

@@ -2,6 +2,7 @@
 
 namespace Modules\Adjustment\Http\Controllers;
 
+use Carbon\Carbon;
 use Modules\Adjustment\DataTables\AdjustmentsDataTable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Modules\Adjustment\DataTables\ListStockDataTable;
 use Modules\Adjustment\Entities\AdjustedProduct;
 use Modules\Adjustment\Entities\Adjustment;
 use Modules\Product\Entities\Product;
+use Modules\Stock\Entities\Stock;
 
 class AdjustmentController extends Controller
 {
@@ -60,6 +62,18 @@ class AdjustmentController extends Controller
             ]);
 
             foreach ($request->product_ids as $key => $id) {
+                Stock::updateOrCreate(
+                    [
+                        'product_id'    => $id,
+                        'item_location' => $request->item_locations[$key],
+                    ],
+                    [
+                        'stock'      => (int) $request->quantities[$key],
+                        'stock_date'    => Carbon::now(),
+                    ]
+                );
+
+
                 AdjustedProduct::create([
                     'adjustment_id' => $adjustment->id,
                     'product_id'    => $id,

@@ -14,5 +14,6 @@
     "PurchasesReturn": true,
     "Quotation": true,
     "Reports": true,
-    "GoodReceipt": true
+    "GoodReceipt": true,
+    "Stock": true
 }
