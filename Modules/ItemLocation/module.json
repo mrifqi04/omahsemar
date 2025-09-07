@@ -1,0 +1,11 @@
+{
+    "name": "ItemLocation",
+    "alias": "itemlocation",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ItemLocation\\Providers\\ItemLocationServiceProvider"
+    ],
+    "files": []
+}

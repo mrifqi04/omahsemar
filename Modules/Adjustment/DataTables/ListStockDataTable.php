@@ -40,7 +40,7 @@ class ListStockDataTable extends DataTable
         return $model->newQuery()
             ->select(
                 'stocks.*',
-            )->with('product.category');
+            )->with(['product.category', 'ItemLocation']);
     }
 
     public function html()
@@ -74,7 +74,7 @@ class ListStockDataTable extends DataTable
                 ->orderable(false)
                 ->className('text-center align-middle'),
 
-            Column::make('item_location')
+            Column::make('item_location.location_name')
                 ->title('Item Location')
                 ->className('text-center align-middle'),
 

@@ -69,9 +69,11 @@
                                         <label for="item_location">Item Stored Location <span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" name="item_location" id="item_location" required>
-                                            <option value="{{ $setting->company_name }}">
-                                                {{ $setting->company_name }}
-                                            </option>
+                                            @foreach ($itemLocations as $location)
+                                                <option value="{{ $location->id }}">
+                                                    {{ $location->location_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

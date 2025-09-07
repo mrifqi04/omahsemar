@@ -30,6 +30,14 @@
                 </a>
             </li>
         </ul>
+        <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('item-locations.index') ? 'c-active' : '' }}"
+                    href="{{ route('item-locations.index') }}">
+                    <i class="c-sidebar-nav-icon bi bi-pin" style="line-height: 1;"></i> Item Locations
+                </a>
+            </li>
+        </ul>
         @can('access_units')
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item">

@@ -15,5 +15,6 @@
     "Quotation": true,
     "Reports": true,
     "GoodReceipt": true,
-    "Stock": true
+    "Stock": true,
+    "ItemLocation": true
 }

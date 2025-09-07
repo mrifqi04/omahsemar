@@ -12,21 +12,24 @@ use Modules\Currency\Entities\Currency;
 class CurrencyController extends Controller
 {
 
-    public function index(CurrencyDataTable $dataTable) {
+    public function index(CurrencyDataTable $dataTable)
+    {
         abort_if(Gate::denies('access_currencies'), 403);
 
         return $dataTable->render('currency::index');
     }
 
 
-    public function create() {
+    public function create()
+    {
         abort_if(Gate::denies('create_currencies'), 403);
 
         return view('currency::create');
     }
 
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         abort_if(Gate::denies('create_currencies'), 403);
 
         $request->validate([
@@ -53,14 +56,16 @@ class CurrencyController extends Controller
     }
 
 
-    public function edit(Currency $currency) {
+    public function edit(Currency $currency)
+    {
         abort_if(Gate::denies('edit_currencies'), 403);
 
         return view('currency::edit', compact('currency'));
     }
 
 
-    public function update(Request $request, Currency $currency) {
+    public function update(Request $request, Currency $currency)
+    {
         abort_if(Gate::denies('edit_currencies'), 403);
 
         $request->validate([
@@ -87,7 +92,8 @@ class CurrencyController extends Controller
     }
 
 
-    public function destroy(Currency $currency) {
+    public function destroy(Currency $currency)
+    {
         abort_if(Gate::denies('delete_currencies'), 403);
 
         $currency->delete();

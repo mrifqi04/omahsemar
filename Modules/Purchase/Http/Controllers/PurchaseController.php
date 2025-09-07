@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Modules\Adjustment\Entities\AdjustedProduct;
 use Modules\Adjustment\Entities\Adjustment;
+use Modules\ItemLocation\Entities\ItemLocation;
 use Modules\People\Entities\Supplier;
 use Modules\Product\Entities\Product;
 use Modules\Purchase\Entities\GoodReceipt;
@@ -254,6 +255,7 @@ class PurchaseController extends Controller
     {
         abort_if(Gate::denies('create_purchases'), 403);
         $data['setting'] = Setting::first();
+        $data['itemLocations'] = ItemLocation::all();
 
         Cart::instance('gr')->destroy();
 
@@ -293,10 +295,10 @@ class PurchaseController extends Controller
                 Stock::updateOrCreate(
                     [
                         'product_id' => $cart_item->id,
-                        'item_location' => $request->item_location
+                        'item_location_id' => $request->item_location
                     ],
                     [
-                        'stock' => DB::raw('stock + ' . (int) $cart_item->options->qty_gr),
+                        'stock' => Stock::where('product_id', $cart_item->id)->where('item_location_id', $request->item_location)->sum('stock') + ((int) $cart_item->options->qty_gr),
                         'stock_date' => Carbon::now(),
                     ]
                 );
