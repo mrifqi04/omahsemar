@@ -14,6 +14,7 @@ class GoodReceipt extends Model
         'date',
         'reference',
         'note',
+        'total'
     ];
 
     public static function boot()

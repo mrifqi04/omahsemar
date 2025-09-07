@@ -19,6 +19,7 @@ class GoodReceiptDetail extends Model
         'qty_po',
         'qty_gr',
         'note',
+        'total'
     ];
 
     public function product()

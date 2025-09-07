@@ -262,31 +262,21 @@ class PurchaseController extends Controller
     public function grStore(Request $request)
     {
         DB::transaction(function () use ($request) {
+            $grand_total = 0;
             $gr = GoodReceipt::create([
                 'purchase_id' => $request->purchase_id,
                 'date' => $request->date,
                 'supplier_id' => $request->supplier_id,
                 'supplier_name' => Supplier::findOrFail($request->supplier_id)->supplier_name,
                 'note' => $request->note,
+                'total' => $grand_total
             ]);
             $purchase = Purchase::findOrFail($request->purchase_id);
             $purchase->status = 'Completed';
             $purchase->save();
 
-            $adjustment = Adjustment::create([
-                'date' => $request->date,
-                'note' => $request->note
-            ]);
-
             foreach (Cart::instance('gr')->content() as $cart_item) {
-                AdjustedProduct::create([
-                    'adjustment_id' => $adjustment->id,
-                    'product_id'    => $cart_item->id,
-                    'quantity'      => $cart_item->options->qty_gr,
-                    'type'          => 'add',
-                    'item_location' => $request->item_location
-                ]);
-
+                $grand_total += $cart_item->options->sub_total;
                 GoodReceiptDetail::create([
                     'good_receipt_id' => $gr->id,
                     'product_id' => $cart_item->id,
@@ -296,6 +286,7 @@ class PurchaseController extends Controller
                     'qty_po' => $cart_item->options->qty_po,
                     'qty_gr' => $cart_item->options->qty_gr,
                     'note' => $cart_item->options->note,
+                    'total' => $cart_item->options->sub_total
                 ]);
 
                 Stock::updateOrCreate(
@@ -310,6 +301,8 @@ class PurchaseController extends Controller
                 );
             }
 
+            $gr->total = $grand_total;
+            $gr->save();
             Cart::instance('gr')->destroy();
         });
 

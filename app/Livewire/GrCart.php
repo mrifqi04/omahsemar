@@ -179,7 +179,6 @@ class GrCart extends Component
 
     public function updateQuantityGr($row_id, $product_id)
     {
-
         $cart_item = Cart::instance($this->cart_instance)->get($row_id);
         $new_qty_gr = $this->qty_gr[$product_id] ?? 0;
         Cart::instance($this->cart_instance)->update($row_id, [
@@ -192,6 +191,7 @@ class GrCart extends Component
                 'unit_price'            => $cart_item->options->unit_price,
                 'product_discount'      => $cart_item->options->product_discount,
                 'product_discount_type' => $cart_item->options->product_discount_type,
+                'sub_total'             => $cart_item->price * $new_qty_gr,
                 'qty_po'                => $cart_item->options->qty_po,
                 'qty_gr'                => (int) $new_qty_gr,
                 'note' => $this->notes[$product_id] ?? '',
