@@ -253,10 +253,11 @@ class PurchaseController extends Controller
     public function gr()
     {
         abort_if(Gate::denies('create_purchases'), 403);
+        $data['setting'] = Setting::first();
 
         Cart::instance('gr')->destroy();
 
-        return view('purchase::gr');
+        return view('purchase::gr', $data);
     }
 
     public function grStore(Request $request)

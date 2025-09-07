@@ -69,11 +69,9 @@
                                         <label for="item_location">Item Stored Location <span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" name="item_location" id="item_location" required>
-                                            @foreach (\Modules\Adjustment\Entities\AdjustedProduct::select('item_location')->distinct()->get() as $itemLocation)
-                                                <option value="{{ $itemLocation->item_location }}">
-                                                    {{ $itemLocation->item_location }}
-                                                </option>
-                                            @endforeach
+                                            <option value="{{ $setting->company_name }}">
+                                                {{ $setting->company_name }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
