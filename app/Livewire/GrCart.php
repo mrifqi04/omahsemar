@@ -93,7 +93,6 @@ class GrCart extends Component
             $poDetail = PurchaseDetail::where('purchase_id', $this->selectedPurchaseId)->where('product_id', $product['product_id'])->first();
 
             $exists = $cart->search(function ($cartItem, $rowId) use ($product) {
-                dd($cartItem);
                 return $cartItem->id == $product['product_id'];
             });
 
@@ -146,7 +145,6 @@ class GrCart extends Component
 
     public function updateQuantity($row_id, $product_id)
     {
-        dd($product_id);
         if ($this->cart_instance == 'sale' || $this->cart_instance == 'purchase_return') {
             if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
                 session()->flash('message', 'The requested quantity is not available in stock.');
