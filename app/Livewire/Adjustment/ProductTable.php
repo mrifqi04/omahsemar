@@ -4,6 +4,7 @@ namespace App\Livewire\Adjustment;
 
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Modules\ItemLocation\Entities\ItemLocation;
 use Modules\Product\Entities\Product;
 
 class ProductTable extends Component
@@ -13,6 +14,7 @@ class ProductTable extends Component
 
     public $products;
     public $hasAdjustments;
+    public $item_locations = [];
 
     public function mount($adjustedProducts = null)
     {
@@ -24,6 +26,7 @@ class ProductTable extends Component
         } else {
             $this->hasAdjustments = false;
         }
+        $this->item_locations = ItemLocation::all();
     }
 
     public function render()

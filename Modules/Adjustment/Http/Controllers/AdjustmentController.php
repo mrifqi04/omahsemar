@@ -5,6 +5,7 @@ namespace Modules\Adjustment\Http\Controllers;
 use Carbon\Carbon;
 use Modules\Adjustment\DataTables\AdjustmentsDataTable;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -55,49 +56,46 @@ class AdjustmentController extends Controller
             'types'       => 'required'
         ]);
 
-        DB::transaction(function () use ($request) {
-            $adjustment = Adjustment::create([
-                'date' => $request->date,
-                'note' => $request->note
-            ]);
-
-            foreach ($request->product_ids as $key => $id) {
-                Stock::updateOrCreate(
-                    [
-                        'product_id'    => $id,
-                        'item_location' => $request->item_locations[$key],
-                    ],
-                    [
-                        'stock'      => (int) $request->quantities[$key],
-                        'stock_date'    => Carbon::now(),
-                    ]
-                );
-
-
-                AdjustedProduct::create([
-                    'adjustment_id' => $adjustment->id,
-                    'product_id'    => $id,
-                    'quantity'      => $request->quantities[$key],
-                    'type'          => $request->types[$key],
-                    'item_location' => $request->item_locations[$key]
+        try {
+            DB::transaction(function () use ($request) {
+                $adjustment = Adjustment::create([
+                    'date' => $request->date,
+                    'note' => $request->note
                 ]);
 
-                $product = Product::findOrFail($id);
+                foreach ($request->product_ids as $key => $id) {
+                    $stock = Stock::where('product_id', $id)
+                        ->where('item_location_id', $request->item_locations[$key])
+                        ->firstOrFail(); // will bubble out to outer catch
 
-                if ($request->types[$key] == 'add') {
-                    $product->update([
-                        'product_quantity' => $product->product_quantity + $request->quantities[$key]
+                    $stock->update([
+                        'stock' => $stock->stock + (int) $request->quantities[$key],
+                        'stock_date' => now(),
                     ]);
-                } elseif ($request->types[$key] == 'sub') {
-                    $product->update([
-                        'product_quantity' => $product->product_quantity - $request->quantities[$key]
+
+                    AdjustedProduct::create([
+                        'adjustment_id' => $adjustment->id,
+                        'product_id'    => $id,
+                        'quantity'      => $request->quantities[$key],
+                        'type'          => $request->types[$key],
+                        'item_location' => $request->item_locations[$key]
                     ]);
+
+                    $product = Product::findOrFail($id);
+
+                    if ($request->types[$key] == 'add') {
+                        $product->increment('product_quantity', $request->quantities[$key]);
+                    } elseif ($request->types[$key] == 'sub') {
+                        $product->decrement('product_quantity', $request->quantities[$key]);
+                    }
                 }
-            }
-        });
+            });
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            toast('Product not found on selected location!', 'error');
+            return redirect()->back();
+        }
 
         toast('Adjustment Created!', 'success');
-
         return redirect()->route('adjustments.list-stock');
     }
 
