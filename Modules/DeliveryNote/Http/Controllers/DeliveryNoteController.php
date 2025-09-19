@@ -117,7 +117,7 @@ class DeliveryNoteController extends Controller
 
         toast('Delivery Note Created!', 'success');
 
-        return redirect()->route('delivery-notes.index');
+        return redirect()->route('delivery-notes.create');
     }
 
     /**
