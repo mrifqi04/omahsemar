@@ -17,6 +17,6 @@ class TenantDatabaseSeeder extends Seeder
         $this->call(SettingDatabaseSeeder::class);
         $this->call(ProductDatabaseSeeder::class);
 
-        // $this->call(TenantAdminSeeder::class);
+        $this->call(TenantAdminSeeder::class);
     }
 }

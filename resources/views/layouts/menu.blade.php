@@ -4,7 +4,6 @@
     </a>
 </li>
 
-@can('access_currencies|access_settings')
     <li
         class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('currencies*') || request()->routeIs('units*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
@@ -80,7 +79,6 @@
             </ul>
         @endcan
     </li>
-@endcan
 
 {{-- @can('access_products')
     <li
@@ -189,16 +187,14 @@
                 </a>
             </li>
         </ul>
-        @can('create_purchase')
-            <ul class="c-sidebar-nav-dropdown-items">
-                <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.create') ? 'c-active' : '' }}"
-                        href="{{ route('purchases.create') }}">
-                        <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Create Purchase
-                    </a>
-                </li>
-            </ul>
-        @endcan
+        <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.create') ? 'c-active' : '' }}"
+                    href="{{ route('purchases.create') }}">
+                    <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Create Purchase
+                </a>
+            </li>
+        </ul>
         <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('purchases-gr') ? 'c-active' : '' }}"
@@ -207,14 +203,30 @@
                 </a>
             </li>
         </ul>
+         <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('delivery-notes.create') ? 'c-active' : '' }}"
+                    href="{{ route('delivery-notes.create') }}">
+                    <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Delivery Note
+                </a>
+            </li>
+        </ul>
         <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('purchases-gr') ? 'c-active' : '' }}"
+                    href="{{ route('purchase-gr') }}">
+                    <i class="c-sidebar-nav-icon bi bi-box" style="line-height: 1;"></i> Stock Out
+                </a>
+            </li>
+        </ul>
+        <!-- <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.index') ? 'c-active' : '' }}"
                     href="{{ route('purchases.index') }}">
                     <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> All Purchases
                 </a>
             </li>
-        </ul>
+        </ul> -->
         <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('adjustments.create') ? 'c-active' : '' }}"

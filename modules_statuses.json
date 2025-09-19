@@ -16,5 +16,6 @@
     "Reports": true,
     "GoodReceipt": true,
     "Stock": true,
-    "ItemLocation": true
+    "ItemLocation": true,
+    "DeliveryNote": true
 }
