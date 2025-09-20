@@ -213,8 +213,8 @@
         </ul>
         <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link {{ request()->routeIs('purchases-gr') ? 'c-active' : '' }}"
-                    href="{{ route('purchase-gr') }}">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('stockouts.create') ? 'c-active' : '' }}"
+                    href="{{ route('stockouts.create') }}">
                     <i class="c-sidebar-nav-icon bi bi-box" style="line-height: 1;"></i> Stock Out
                 </a>
             </li>

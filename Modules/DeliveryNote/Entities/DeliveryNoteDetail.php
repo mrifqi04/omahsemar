@@ -12,7 +12,7 @@ class DeliveryNoteDetail extends Model
 
     protected $guarded = [];
 
-    protected $with = ['delivery_notes'];
+    protected $with = ['deliveryNote'];
 
     public function deliveryNote() {
         return $this->belongsTo(DeliveryNote::class, 'delivery_notes_id', 'id');

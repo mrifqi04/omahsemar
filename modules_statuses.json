@@ -17,5 +17,6 @@
     "GoodReceipt": true,
     "Stock": true,
     "ItemLocation": true,
-    "DeliveryNote": true
+    "DeliveryNote": true,
+    "StockOut": true
 }

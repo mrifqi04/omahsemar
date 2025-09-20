@@ -96,9 +96,9 @@ class DeliveryNoteController extends Controller
                     ]);
                 }
 
-                $stockF = Stock::where('product_id', $cart_item->id)->where('stock', '>', 0)->first();
-                $stockF->stock -= $cart_item->qty;
-                $stockF->save();
+                // $stockF = Stock::where('product_id', $cart_item->id)->where('stock', '>', 0)->first();
+                // $stockF->stock -= $cart_item->qty;
+                // $stockF->save();
             }
 
             Cart::instance('delivery-note-cart')->destroy();
