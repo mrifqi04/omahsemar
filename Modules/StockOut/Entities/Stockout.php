@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\DeliveryNote\Entities\DeliveryNote;
 use Modules\StockOut\Entities\StockoutDetail;
 
-class StockOut extends Model
+class Stockout extends Model
 {
     use HasFactory;
 
