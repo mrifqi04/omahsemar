@@ -22,7 +22,7 @@ class StockOut extends Model
     public static function boot()
     {
         parent::boot();
-
+        // boot
         static::creating(function ($model) {
             $number = StockOut::max('id') + 1;
             $model->reference = make_reference_id('SO', $number);
