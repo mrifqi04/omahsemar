@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Modules\Setting\Entities\Setting;
 use Modules\ItemLocation\Entities\ItemLocation;
 use Illuminate\Support\Facades\DB;
-use Modules\StockOut\Entities\StockOut;
+use Modules\Stockout\Entities\Stockout;
 use Modules\StockOut\Entities\StockoutDetail;
 use Modules\People\Entities\Supplier;
 use Modules\DeliveryNote\Entities\DeliveryNote;
@@ -50,7 +50,7 @@ class StockOutController extends Controller
     {
        DB::transaction(function () use ($request) {
             $grand_total = 0;
-            $so = StockOut::create([
+            $so = Stockout::create([
                 'delivery_note_id' => $request->dn_id,
                 'date' => $request->date,
                 'supplier_id' => $request->supplier_id,
