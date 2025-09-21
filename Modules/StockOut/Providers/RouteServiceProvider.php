@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\StockOut\Providers;
+namespace Modules\Stockout\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

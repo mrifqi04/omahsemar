@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\StockOut\Providers;
+namespace Modules\Stockout\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
