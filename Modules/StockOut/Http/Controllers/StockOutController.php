@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\StockOut\Http\Controllers;
+namespace Modules\Stockout\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
