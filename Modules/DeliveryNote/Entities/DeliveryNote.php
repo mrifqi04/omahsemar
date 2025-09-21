@@ -4,7 +4,7 @@ namespace Modules\DeliveryNote\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Stockout\Entities\Stockout;
+use Modules\StockOut\Entities\StockOut;
 
 
 class DeliveryNote extends Model
@@ -30,6 +30,6 @@ class DeliveryNote extends Model
 
      public function stockout()
     {
-        return $this->hasOne(Stockout::class, 'delivery_note_id', 'id');
+        return $this->hasOne(StockOut::class, 'delivery_note_id', 'id');
     }
 }

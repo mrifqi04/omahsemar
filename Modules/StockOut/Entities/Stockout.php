@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Stockout\Entities;
+namespace Modules\StockOut\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\DeliveryNote\Entities\DeliveryNote;
-use Modules\Stockout\Entities\StockoutDetail;
+use Modules\StockOut\Entities\StockoutDetail;
 
-class Stockout extends Model
+class StockOut extends Model
 {
     use HasFactory;
 
@@ -24,7 +24,7 @@ class Stockout extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $number = Stockout::max('id') + 1;
+            $number = StockOut::max('id') + 1;
             $model->reference = make_reference_id('SO', $number);
         });
     }
@@ -36,6 +36,6 @@ class Stockout extends Model
 
     public function stockOutDetails()
     {
-        return $this->hasMany(StockOutDetails::class, 'stockout_id', 'id');
+        return $this->hasMany(StockoutDetails::class, 'stockout_id', 'id');
     }
 }

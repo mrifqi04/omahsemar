@@ -1,11 +1,9 @@
 {
     "name": "StockOut",
-    "alias": "stockout",
+    "alias": "StockOut",
     "description": "",
     "keywords": [],
     "priority": 0,
-    "providers": [
-        "Modules\\StockOut\\Providers\\StockOutServiceProvider"
-    ],
+    "providers": ["Modules\\StockOut\\Providers\\StockOutServiceProvider"],
     "files": []
 }
