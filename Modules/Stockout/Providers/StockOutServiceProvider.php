@@ -10,7 +10,7 @@ class StockOutServiceProvider extends ServiceProvider
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'StockOut';
+    protected $moduleName = 'Stockout';
 
     /**
      * @var string $moduleNameLower
