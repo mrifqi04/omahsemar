@@ -5,7 +5,7 @@ namespace Modules\StockOut\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\DeliveryNote\Entities\DeliveryNote;
-use Modules\StockOut\Entities\StockoutDetail;
+use Modules\Stockout\Entities\StockoutDetail;
 
 class Stockout extends Model
 {
