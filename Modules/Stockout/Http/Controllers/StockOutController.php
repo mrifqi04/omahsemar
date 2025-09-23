@@ -11,12 +11,12 @@ use Modules\Setting\Entities\Setting;
 use Modules\ItemLocation\Entities\ItemLocation;
 use Illuminate\Support\Facades\DB;
 use Modules\Stockout\Entities\Stockout;
-use Modules\StockOut\Entities\StockoutDetail;
+use Modules\Stockout\Entities\StockoutDetail;
 use Modules\People\Entities\Supplier;
 use Modules\DeliveryNote\Entities\DeliveryNote;
 use Modules\Stock\Entities\Stock;
 
-class StockOutController extends Controller
+class StockoutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -50,7 +50,7 @@ class StockOutController extends Controller
     {
        DB::transaction(function () use ($request) {
             $grand_total = 0;
-            $so = Stockout::create([
+            $so = StockOut::create([
                 'delivery_note_id' => $request->dn_id,
                 'date' => $request->date,
                 'supplier_id' => $request->supplier_id,
