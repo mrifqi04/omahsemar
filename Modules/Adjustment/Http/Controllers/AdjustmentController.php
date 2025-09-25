@@ -68,10 +68,17 @@ class AdjustmentController extends Controller
                         ->where('item_location_id', $request->item_locations[$key])
                         ->firstOrFail(); // will bubble out to outer catch
 
-                    $stock->update([
-                        'stock' => $stock->stock + (int) $request->quantities[$key],
-                        'stock_date' => now(),
-                    ]);
+                    if ($request->types[$key] == 'add') {
+                        $stock->update([
+                            'stock' => $stock->stock + (int) $request->quantities[$key],
+                            'stock_date' => now(),
+                        ]);
+                    } elseif ($request->types[$key] == 'sub') {
+                         $stock->update([
+                            'stock' => $stock->stock - (int) $request->quantities[$key],
+                            'stock_date' => now(),
+                        ]);
+                    }    
 
                     AdjustedProduct::create([
                         'adjustment_id' => $adjustment->id,

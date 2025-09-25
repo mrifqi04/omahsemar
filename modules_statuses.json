@@ -18,5 +18,6 @@
     "Stock": true,
     "ItemLocation": true,
     "DeliveryNote": true,
-    "StockOut": true
+    "StockOut": true,
+    "StockOpname": true
 }

@@ -205,6 +205,14 @@
         </ul>
          <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.index') ? 'c-active' : '' }}"
+                    href="{{ route('purchases.index') }}">
+                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> All Purchases
+                </a>
+            </li>
+        </ul>
+         <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('delivery-notes.create') ? 'c-active' : '' }}"
                     href="{{ route('delivery-notes.create') }}">
                     <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Delivery Note
@@ -219,14 +227,6 @@
                 </a>
             </li>
         </ul>
-        <!-- <ul class="c-sidebar-nav-dropdown-items">
-            <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.index') ? 'c-active' : '' }}"
-                    href="{{ route('purchases.index') }}">
-                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> All Purchases
-                </a>
-            </li>
-        </ul> -->
         <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('adjustments.create') ? 'c-active' : '' }}"
@@ -237,8 +237,8 @@
         </ul>
          <ul class="c-sidebar-nav-dropdown-items">
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link {{ request()->routeIs('adjustments.create') ? 'c-active' : '' }}"
-                    href="{{ route('adjustments.create') }}">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('stock-opnames.create') ? 'c-active' : '' }}"
+                    href="{{ route('stock-opnames.create') }}">
                     <i class="c-sidebar-nav-icon bi bi-clipboard-check" style="line-height: 1;"></i> Proses Stock Opname
                 </a>
             </li>

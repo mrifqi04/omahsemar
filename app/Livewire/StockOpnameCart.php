@@ -8,7 +8,7 @@ use Livewire\Component;
 use Modules\Product\Entities\Product;
 use Modules\Setting\Entities\Setting;
 
-class DeliveryNoteCart extends Component
+class StockOpnameCart extends Component
 {
 
     public $listeners = ['productSelected', 'discountModalRefresh'];
@@ -69,7 +69,7 @@ class DeliveryNoteCart extends Component
     {
         $cart_items = Cart::instance($this->cart_instance)->content();
 
-        return view('livewire.product-cart', [
+        return view('livewire.adjustment.product-table', [
             'cart_items' => $cart_items
         ]);
     }
@@ -135,12 +135,11 @@ class DeliveryNoteCart extends Component
 
     public function updateQuantity($row_id, $product_id)
     {
-        // if ($this->cart_instance == 'sale' || $this->cart_instance == 'purchase_return') {
-           
-        // }
-        if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
-            session()->flash('message', 'The requested quantity is not available in stock.');
-            return;
+        if ($this->cart_instance == 'sale' || $this->cart_instance == 'purchase_return') {
+            if ($this->check_quantity[$product_id] < $this->quantity[$product_id]) {
+                session()->flash('message', 'The requested quantity is not available in stock.');
+                return;
+            }
         }
 
         Cart::instance($this->cart_instance)->update($row_id, $this->quantity[$product_id]);

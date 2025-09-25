@@ -71,15 +71,13 @@
                                 @endif
                             </td>
                             <td class="align-middle text-center">
-                                <select name="item_locations" class="form-control" required>
+                                <select name="item_locations[]" class="form-control" required>
                                     @foreach ($item_locations as $item_location)
                                         <option value="{{ $item_location->id }}">
                                             {{ $item_location->location_name }}
                                         </option>
                                     @endforeach
                                 </select>
-                                {{-- <input type="text" name="item_locations[]" class="form-control"
-                                    value="{{ $product['item_location'] ?? '' }}" required> --}}
                             </td>
                             <td class="align-middle text-center">
                                 <button type="button" class="btn btn-danger"
