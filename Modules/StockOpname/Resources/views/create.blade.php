@@ -25,15 +25,40 @@
                         @include('utils.alerts')
                         <form id="purchase-form" action="{{ route('stock-opnames.store') }}" method="POST">
                             @csrf
-
                             <div class="form-row">
-                                <div class="col-4"></div>
-                                <div class="col-4"></div>
-                                <div class="col-lg-4">
+                                <div class="col-8"></div>
+                                <div class="col-2">
                                     <div class="from-group">
                                         <div class="form-group">
-                                            <label for="date">Date <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" name="date" required>
+                                            <label for="date">Bulan Stock Opname <span class="text-danger">*</span></label>
+                                            <select class="form-control" name="so_month" id="so_month">
+                                                    <option selected value="">-- Pilih Bulan --</option>
+                                                    <option value="01">Januari</option>
+                                                    <option value="02">Februari</option>
+                                                    <option value="03">Maret</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">Mei</option>
+                                                    <option value="06">Juni</option>
+                                                    <option value="07">Juli</option>
+                                                    <option value="08">Agustus</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="from-group">
+                                        <div class="form-group">
+                                            <label for="date">Tahun Stock Opname <span class="text-danger">*</span></label>
+                                            <select class="form-control" name="so_year" id="so_date">
+                                                <option selected value="">-- Pilih Tahun --</option>
+                                                @for ($y = now()->year; $y <= now()->year + 3; $y++)
+                                                    <option value="{{ $y }}">{{ $y }}</option>
+                                                @endfor
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

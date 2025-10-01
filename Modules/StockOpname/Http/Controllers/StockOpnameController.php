@@ -41,9 +41,9 @@ class StockOpnameController extends Controller
      */
    public function store(Request $request)
     {
-
         $request->validate([
-            'date'           => 'required|date',
+            'so_month'        => 'required', // bulan
+            'so_year'        => 'required', // tahun
             'note'           => 'required|string|max:1000',
             'product_ids'    => 'required|array',
             'quantities'     => 'required|array',
@@ -51,8 +51,9 @@ class StockOpnameController extends Controller
             'types'          => 'required|array',
         ]);
 
-        $date = Carbon::parse($request->date);
-        // $now  = Carbon::now();
+        $date = Carbon::createFromDate($request->so_year, $request->so_date, 1)->startOfMonth();
+        // $now  = Carbon::parse("2025-10-31");
+        $now  = Carbon::now();
 
         // 1. Cek jika bulan berjalan tapi belum akhir bulan
         if ($date->isSameMonth($now) && $date->isSameYear($now)) {
@@ -83,7 +84,7 @@ class StockOpnameController extends Controller
             toast("Stock Opname bulan {$date->translatedFormat('F Y')} belum waktunya.", 'error');
             return redirect()->back();
         }
-
+        dd("Created");
         try {
             DB::transaction(function () use ($request) {
                 $adjustment = Adjustment::create([
