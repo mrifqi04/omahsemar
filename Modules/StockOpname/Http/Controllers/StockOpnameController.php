@@ -84,7 +84,7 @@ class StockOpnameController extends Controller
             toast("Stock Opname bulan {$date->translatedFormat('F Y')} belum waktunya.", 'error');
             return redirect()->back();
         }
-        dd("Created");
+        // dd("Created");
         try {
             DB::transaction(function () use ($request) {
                 $adjustment = Adjustment::create([
